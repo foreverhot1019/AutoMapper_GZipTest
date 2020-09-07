@@ -1,0 +1,1 @@
+# AutoMapper_GZipTest
