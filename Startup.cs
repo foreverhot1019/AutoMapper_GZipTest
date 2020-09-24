@@ -71,12 +71,14 @@ namespace webApiTest
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+            //添加Log4Net组件
+            loggerFactory.AddLog4Net();
             //开启Gzip等压缩
             //app.UseResponseCompression();
 

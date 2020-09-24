@@ -29,6 +29,8 @@ namespace webApiTest.Controllers
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
+            _logger.LogInformation("Start-get-WeatherForecast");
+            _logger.LogDebug("Debugger-start");
             var src = new Source
             {
                 _dtValue = DateTime.Now,
@@ -37,6 +39,14 @@ namespace webApiTest.Controllers
                 _StrVal = "string value",
                 _tfValue = true
             };
+            try
+            {
+                var aa = (WeatherForecast)((Object)src);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error-get-WeatherForecast");
+            }
             var a = _myMapprt.ToDestination(src);
             var b = _myMapprt.ToSource(a);
             //var des = src.ToDestination();
@@ -44,13 +54,20 @@ namespace webApiTest.Controllers
             //var newsrc = des.ToSource();
 
             var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            var ret = Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
                 TemperatureC = rng.Next(-20, 55),
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
+            //.Concat(new List<WeatherForecast>() { new WeatherForecast {
+            //    Date = DateTime.MinValue,
+            //    TemperatureC = rng.Next(-20, 55),
+            //    Summary = Summaries[rng.Next(Summaries.Length)]
+            //} })
             .ToArray();
+            _logger.LogWarning("End-get-WeatherForecast");
+            return ret;
         }
 
         [HttpPost]
